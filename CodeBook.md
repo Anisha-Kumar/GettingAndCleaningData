@@ -132,7 +132,7 @@ names(Combined_Data) <- valid_column_names
 ```r
 ext_Data <- select (Combined_Data,Activity,Subject, contains("mean"),contains("std"))
 ```
-Read activity labels and replace old names with descriptive activity names to name the activities in the data set through factorising the Activity column 
+##Read activity labels and replace old names with descriptive activity names to name the activities in the data set through factorising the Activity column 
 
 ```r
 Names_activity <- read.table(file.path(path1,"activity_labels.txt"), header = FALSE)
@@ -147,7 +147,7 @@ names(Combined_Data)<-gsub("Mag", "Magnitude", names(Combined_Data))
 names(Combined_Data)<-gsub("BodyBody", "Body", names(Combined_Data))
 names(Combined_Data)<-gsub("\\.", "", names(Combined_Data))
 ```
-## 4. Independent tidy data set 
+## Independent tidy data set 
 
 Create independent tidy data set with the average of each variable for each activity and each subject through pipelining the following functions ( group_by ,sumarrise_each, and finally write the table in TidayDataSet.txt using the function write.table)
 
