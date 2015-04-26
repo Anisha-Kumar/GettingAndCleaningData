@@ -41,6 +41,10 @@ fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%2
 setInternet2(use = TRUE)
 download.file(fileUrl,destfile="Dataset.zip" ,method ="internal" , mode="wb")
 ```
+## Check if exists/create directory Dataset to unzip the file into
+```r
+if(!file.exists("./Dataset")){dir.create("./Dataset")}
+```
 ### Unzip the file and set the path
 The unzipped files are in the folder UCI HAR Dataset within Dataset folder.
 The location to these files is stored in path1 variable
@@ -136,22 +140,22 @@ ext_Data <- select (Combined_Data,Activity,Subject, contains("mean"),contains("s
 
 ```r
 Names_activity <- read.table(file.path(path1,"activity_labels.txt"), header = FALSE)
-Combined_Data$Activity <- factor(Combined_Data$Activity, labels = Names_activity[,2] )
+ext_Data$Activity <- factor(ext_Data$Activity, labels = Names_activity[,2] )
 
 # Set descriptive Column names to the data set using names() and gsub()
-names(Combined_Data)<-gsub("^t", "Time", names(Combined_Data))
-names(Combined_Data)<-gsub("^f", "Frequency", names(Combined_Data))
-names(Combined_Data)<-gsub("Acc", "Accelerometer_", names(Combined_Data))
-names(Combined_Data)<-gsub("Gyro", "Gyroscope_", names(Combined_Data))
-names(Combined_Data)<-gsub("Mag", "Magnitude", names(Combined_Data))
-names(Combined_Data)<-gsub("BodyBody", "Body", names(Combined_Data))
-names(Combined_Data)<-gsub("\\.", "", names(Combined_Data))
+names(ext_Data)<-gsub("^t", "Time", names(ext_Data))
+names(ext_Data)<-gsub("^f", "Frequency", names(ext_Data))
+names(ext_Data)<-gsub("Acc", "Accelerometer_", names(ext_Data))
+names(ext_Data)<-gsub("Gyro", "Gyroscope_", names(ext_Data))
+names(ext_Data)<-gsub("Mag", "Magnitude", names(ext_Data))
+names(ext_Data)<-gsub("BodyBody", "Body", names(ext_Data))
+names(ext_Data)<-gsub("\\.", "", names(ext_Data))
 ```
 ## Independent tidy data set 
 
 Create independent tidy data set with the average of each variable for each activity and each subject through pipelining the following functions ( group_by ,sumarrise_each, and finally write the table in TidayDataSet.txt using the function write.table)
 ```r
-finalData <- Combined_Data %>% group_by(Activity,Subject) %>% 
+finalData <- ext_Data %>% group_by(Activity,Subject) %>% 
   summarise_each (funs(mean))
 
 write.table(finalData,"TidyDataSet.txt",row.names =FALSE)
