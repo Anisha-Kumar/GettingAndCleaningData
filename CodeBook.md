@@ -150,12 +150,13 @@ names(Combined_Data)<-gsub("\\.", "", names(Combined_Data))
 ## Independent tidy data set 
 
 Create independent tidy data set with the average of each variable for each activity and each subject through pipelining the following functions ( group_by ,sumarrise_each, and finally write the table in TidayDataSet.txt using the function write.table)
-
 ```r
 finalData <- Combined_Data %>% group_by(Activity,Subject) %>% 
-  summarise_each (funs(mean)) %>%
-  write.table("TidyDataSet.txt",row.names =FALSE)
+  summarise_each (funs(mean))
+
+write.table(finalData,"TidyDataSet.txt",row.names =FALSE)
 ```
+
 
 
 

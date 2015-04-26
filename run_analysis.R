@@ -3,7 +3,8 @@ library(tidyr)
 
 # download the dataset from the source
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-download.file(fileUrl,destfile="Dataset.zip")
+setInternet2(use = TRUE)
+download.file(fileUrl,destfile="Dataset.zip" ,method ="internal" , mode="wb")
 
 # unzip the file
 unzip(zipfile="Dataset.zip",exdir = "./Dataset")
@@ -75,8 +76,9 @@ names(Combined_Data)<-gsub("\\.", "", names(Combined_Data))
 #variable for each activity and each subject
 
 finalData <- Combined_Data %>% group_by(Activity,Subject) %>% 
-  summarise_each (funs(mean)) %>%
-  write.table("TidyDataSet.txt",row.names =FALSE)
+  summarise_each (funs(mean))
+
+write.table(finalData,"TidyDataSet.txt",row.names =FALSE)
 
 
 
